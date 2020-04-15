@@ -1,0 +1,22 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"__group": "wooden_slab",
+	"pattern":
+	[
+		" F ",
+		"QCQ",
+		"OQO"
+	],
+	"key":
+	{
+		"F": { "item": "minecraft:chorus_flower" },
+		"Q": { "item": "minecraft:smooth_quartz" },
+		"C": { "item": "minecraft:end_crystal" },
+		"O": { "item": "minecraft:obsidian" }
+	},
+	"result":
+	{
+		"item": "mendingrework:enchanting_altar",
+		"count": 1
+	}
+}

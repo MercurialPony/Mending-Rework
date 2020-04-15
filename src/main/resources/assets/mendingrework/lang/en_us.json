@@ -1,0 +1,9 @@
+{
+	"itemGroup.mendingrework": "Mending Rework",
+
+	"block.mendingrework.enchanting_altar": "Enchanting Altar",
+
+	"enchantment.mendingrework.renewal": "Renewal",
+
+	"tooltip.mendingrework.repair_bonus": "+%s%% Repair Bonus"
+}

@@ -1,0 +1,16 @@
+modLoader="javafml"
+loaderVersion="[31,)"
+issueTrackerURL="https://github.com/Melonslise/Mending-Rework/issues"
+
+[[mods]]
+modId="mendingrework"
+version="1.0"
+displayName="Mending Rework"
+#updateJSONURL="http://myurl.me/"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/mending-rework"
+logoFile="mendingrework.png"
+credits="On MMD: Silk, JTK222|Lukas, Commoble, Gigaherz, Darkhax"
+authors="Code: Melonslise, Art and Request: EternalOne"
+description='''
+Mending Rework attempts to fix and balance some vanilla mechanics that are considered underpowered or, on the contrary, must-have such as anvil repairs and the mending enchantment by adding cool new features and reworking existing ones
+'''
