@@ -1,9 +1,11 @@
 package melonslise.mendingrework.common.event;
 
 import melonslise.mendingrework.MRCore;
+import melonslise.mendingrework.coremod.MRDelegates;
 import melonslise.mendingrework.utility.MRUtilities;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -12,6 +14,14 @@ import net.minecraftforge.fml.common.Mod;
 public final class MRCommonForgeEvents
 {
 	private MRCommonForgeEvents() {}
+
+	@SubscribeEvent
+	public static void onEquipmentChange(LivingEquipmentChangeEvent event)
+	{
+		if(event.isCanceled()) return;
+		MRDelegates.getAttributeModifiers(event.getSlot(), event.getFrom());
+		MRDelegates.getAttributeModifiers(event.getSlot(), event.getTo());
+	}
 
 	@SubscribeEvent
 	public static void breakSpeed(PlayerEvent.BreakSpeed event)

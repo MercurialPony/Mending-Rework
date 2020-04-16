@@ -220,6 +220,7 @@ function initializeCoreMod()
 				return node;
 			}
 		},
+		/*
 		"ItemStack#getAttributeModifiers":
 		{
 			target:
@@ -251,6 +252,7 @@ function initializeCoreMod()
 				return node;
 			}
 		},
+		*/
 		"ItemStack#setDamage":
 		{
 			target:
