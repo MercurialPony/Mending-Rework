@@ -2,6 +2,7 @@ package melonslise.mendingrework.common.tileentity;
 
 import java.util.function.Predicate;
 
+import melonslise.mendingrework.common.config.MRConfiguration;
 import melonslise.mendingrework.common.init.MREnchantments;
 import melonslise.mendingrework.common.init.MRTileEntityTypes;
 import melonslise.mendingrework.common.particle.ParticleDataGlyph;
@@ -239,7 +240,7 @@ public class TileEntityEnchantingAltar extends TileEntity implements ITickableTi
 				--this.ritualTicks;
 				if(this.ritualTicks == 0) this.endRitual();
 			}
-			else this.startRitual();
+			else if(MRConfiguration.ENABLE_RENEWAL.get()) this.startRitual();
 		}
 		else if(this.ritualTicks > 0) this.interruptRitual();
 	}

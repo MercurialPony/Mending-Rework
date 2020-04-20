@@ -1,6 +1,9 @@
 {
  	"variants":
 	{
-		"": { "model": "mendingrework:block/enchanting_altar" }
+		"":
+		{
+			"model": "mendingrework:block/enchanting_altar"
+		}
 	}
 }

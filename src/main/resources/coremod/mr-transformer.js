@@ -100,6 +100,7 @@ function initializeCoreMod()
 				return node;
 			}
 		},
+		/*
 		"ExperienceOrbEntity#onCollideWithPlayer":
 		{
 			target:
@@ -124,6 +125,7 @@ function initializeCoreMod()
 				return node;
 			}
 		},
+		*/
 		"RepairContainer#updateRepairOutput":
 		{
 			target:

@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 
 public class BlockEnchantingAltar extends MRBlock
 {
-	public static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(2d, 0d, 2d, 14d, 4d, 14d), Block.makeCuboidShape(4d, 4d, 4d, 12d, 7d, 12d), Block.makeCuboidShape(5d, 7d, 5d, 11d, 13d, 11d), Block.makeCuboidShape(4d, 13d, 4d, 12d, 15d, 12d), Block.makeCuboidShape(6d, 15d, 6d, 10d, 16d, 10d));
+	public static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(0d, 0d, 0d, 16d, 6d, 16d), Block.makeCuboidShape(4d, 6d, 4d, 12d, 12d, 12d), Block.makeCuboidShape(2d, 12d, 2d, 14d, 16d, 14d));
 
 	public BlockEnchantingAltar()
 	{
