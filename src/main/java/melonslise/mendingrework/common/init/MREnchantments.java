@@ -4,7 +4,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import melonslise.mendingrework.common.enchant.EnchantmentRenewal;
+import melonslise.mendingrework.MRCore;
+import melonslise.mendingrework.common.enchant.RenewalEnchantment;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraftforge.event.RegistryEvent;
 
@@ -12,7 +13,7 @@ public final class MREnchantments
 {
 	private static final List<Enchantment> ENCHANTMENTS = Lists.newArrayList();
 
-	public static final Enchantment RENEWAL = add(new EnchantmentRenewal());
+	public static final Enchantment RENEWAL = add("renewal", new RenewalEnchantment());
 
 	private MREnchantments() {}
 
@@ -21,9 +22,9 @@ public final class MREnchantments
 		for(Enchantment enchantment : ENCHANTMENTS) event.getRegistry().register(enchantment);
 	}
 
-	private static Enchantment add(Enchantment enchantment)
+	private static Enchantment add(String name, Enchantment enchantment)
 	{
-		ENCHANTMENTS.add(enchantment);
+		ENCHANTMENTS.add(enchantment.setRegistryName(MRCore.ID, name));
 		return enchantment;
 	}
 }

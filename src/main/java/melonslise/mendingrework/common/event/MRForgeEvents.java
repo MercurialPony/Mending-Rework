@@ -5,7 +5,7 @@ import java.util.Map.Entry;
 import melonslise.mendingrework.MRCore;
 import melonslise.mendingrework.common.init.MREnchantments;
 import melonslise.mendingrework.coremod.MRDelegates;
-import melonslise.mendingrework.utility.MRUtilities;
+import melonslise.mendingrework.utility.MRUtil;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,9 +18,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = MRCore.ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public final class MRCommonForgeEvents
+public final class MRForgeEvents
 {
-	private MRCommonForgeEvents() {}
+	private MRForgeEvents() {}
 
 	@SubscribeEvent
 	public static void onPickupXp(PlayerXpEvent.PickupXp event)
@@ -59,7 +59,7 @@ public final class MRCommonForgeEvents
 		if(event.isCanceled()) return;
 		PlayerEntity player = event.getPlayer();
 		ItemStack stack = player.getHeldItemMainhand();
-		if(!MRUtilities.hasRepairedDamage(stack)) return;
-		event.setNewSpeed(event.getNewSpeed() + player.inventory.getDestroySpeed(event.getState()) * (float) MRUtilities.getRepairBonus(stack));
+		if(!MRUtil.hasRepairedDamage(stack)) return;
+		event.setNewSpeed(event.getNewSpeed() + player.inventory.getDestroySpeed(event.getState()) * (float) MRUtil.getRepairBonus(stack));
 	}
 }

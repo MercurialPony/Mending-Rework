@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import com.google.common.collect.Lists;
 
 import melonslise.mendingrework.MRCore;
-import melonslise.mendingrework.common.tileentity.TileEntityEnchantingAltar;
+import melonslise.mendingrework.common.tileentity.EnchantingAltarTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -16,7 +16,7 @@ public final class MRTileEntityTypes
 {
 	private static final List<TileEntityType> TILE_ENTITY_TYPES = Lists.newArrayList();
 
-	public static final TileEntityType<TileEntityEnchantingAltar> ENCHANTING_ALTAR = add("enchanting_altar", TileEntityEnchantingAltar::new, MRBlocks.ENCHANTING_ALTAR);
+	public static final TileEntityType<EnchantingAltarTileEntity> ENCHANTING_ALTAR = add("enchanting_altar", EnchantingAltarTileEntity::new, MRBlocks.ENCHANTING_ALTAR);
 
 	private MRTileEntityTypes() {}
 

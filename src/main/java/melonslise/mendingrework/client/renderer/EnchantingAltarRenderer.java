@@ -2,7 +2,7 @@ package melonslise.mendingrework.client.renderer;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import melonslise.mendingrework.common.tileentity.TileEntityEnchantingAltar;
+import melonslise.mendingrework.common.tileentity.EnchantingAltarTileEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Vector3f;
@@ -18,15 +18,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.IItemHandler;
 
 @OnlyIn(Dist.CLIENT)
-public class RendererTileEntityEnchantingAltar extends TileEntityRenderer<TileEntityEnchantingAltar>
+public class EnchantingAltarRenderer extends TileEntityRenderer<EnchantingAltarTileEntity>
 {
-	public RendererTileEntityEnchantingAltar(TileEntityRendererDispatcher dispatcher)
+	public EnchantingAltarRenderer(TileEntityRendererDispatcher dispatcher)
 	{
 		super(dispatcher);
 	}
 
 	@Override
-	public void render(TileEntityEnchantingAltar altar, float partialTick, MatrixStack matrixStack,IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay)
+	public void render(EnchantingAltarTileEntity altar, float partialTick, MatrixStack matrixStack,IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay)
 	{
 		long time = altar.getWorld().getGameTime();
 		IItemHandler inventory = altar.getInventory();
@@ -61,7 +61,7 @@ public class RendererTileEntityEnchantingAltar extends TileEntityRenderer<TileEn
 	}
 
 	@Override
-	public boolean isGlobalRenderer(TileEntityEnchantingAltar altar)
+	public boolean isGlobalRenderer(EnchantingAltarTileEntity altar)
 	{
 		return true;
 	}

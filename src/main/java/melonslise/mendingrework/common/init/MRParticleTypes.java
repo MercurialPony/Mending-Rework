@@ -5,7 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import melonslise.mendingrework.MRCore;
-import melonslise.mendingrework.common.particle.ParticleDataGlyph;
+import melonslise.mendingrework.common.particle.GlyphParticleData;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraftforge.event.RegistryEvent;
@@ -14,7 +14,7 @@ public final class MRParticleTypes
 {
 	private static List<ParticleType> PARTICLE_TYPES = Lists.newArrayList();
 
-	public static final ParticleType<ParticleDataGlyph> GLYPH = add("glyph", ParticleDataGlyph.DESERIALIZER);
+	public static final ParticleType<GlyphParticleData> GLYPH = add("glyph", GlyphParticleData.DESERIALIZER);
 
 	private MRParticleTypes() {}
 

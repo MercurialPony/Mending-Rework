@@ -1,8 +1,8 @@
 package melonslise.mendingrework.client.event;
 
 import melonslise.mendingrework.MRCore;
-import melonslise.mendingrework.client.particle.ParticleGlyph;
-import melonslise.mendingrework.client.renderer.RendererTileEntityEnchantingAltar;
+import melonslise.mendingrework.client.particle.GlypthParticle;
+import melonslise.mendingrework.client.renderer.EnchantingAltarRenderer;
 import melonslise.mendingrework.common.init.MRBlocks;
 import melonslise.mendingrework.common.init.MRParticleTypes;
 import melonslise.mendingrework.common.init.MRTileEntityTypes;
@@ -23,12 +23,12 @@ public class MRClientModEvents
 	public static void setup(FMLClientSetupEvent event)
 	{
 		RenderTypeLookup.setRenderLayer(MRBlocks.ENCHANTING_ALTAR, RenderType.getCutout());
-		ClientRegistry.bindTileEntityRenderer(MRTileEntityTypes.ENCHANTING_ALTAR, RendererTileEntityEnchantingAltar::new);
+		ClientRegistry.bindTileEntityRenderer(MRTileEntityTypes.ENCHANTING_ALTAR, EnchantingAltarRenderer::new);
 	}
 
 	@SubscribeEvent
 	public static void registerParticleFactories(ParticleFactoryRegisterEvent event)
 	{
-		Minecraft.getInstance().particles.registerFactory(MRParticleTypes.GLYPH, ParticleGlyph.Factory::new);
+		Minecraft.getInstance().particles.registerFactory(MRParticleTypes.GLYPH, GlypthParticle.Factory::new);
 	}
 }

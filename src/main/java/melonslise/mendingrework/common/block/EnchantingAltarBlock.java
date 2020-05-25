@@ -1,12 +1,10 @@
 package melonslise.mendingrework.common.block;
 
 import melonslise.mendingrework.common.init.MRTileEntityTypes;
-import melonslise.mendingrework.common.tileentity.TileEntityEnchantingAltar;
+import melonslise.mendingrework.common.tileentity.EnchantingAltarTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.tileentity.TileEntity;
@@ -20,16 +18,15 @@ import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
-public class BlockEnchantingAltar extends MRBlock
+public class EnchantingAltarBlock extends Block
 {
 	public static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(0d, 0d, 0d, 16d, 6d, 16d), Block.makeCuboidShape(4d, 6d, 4d, 12d, 12d, 12d), Block.makeCuboidShape(2d, 12d, 2d, 14d, 16d, 14d));
 
-	public BlockEnchantingAltar()
+	public EnchantingAltarBlock(Properties props)
 	{
-		super("enchanting_altar", Block.Properties.create(Material.ROCK, MaterialColor.QUARTZ).hardnessAndResistance(4f, 8f));
+		super(props);
 	}
 
-	// FIXME getRayTraceShape??
 	@Override
 	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos position, ISelectionContext context)
 	{
@@ -51,7 +48,7 @@ public class BlockEnchantingAltar extends MRBlock
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos position, PlayerEntity player, Hand hand, BlockRayTraceResult rayTrace)
 	{
-		((TileEntityEnchantingAltar) world.getTileEntity(position)).use(player, hand);
+		((EnchantingAltarTileEntity) world.getTileEntity(position)).use(player, hand);
 		return ActionResultType.SUCCESS;
 	}
 
@@ -64,7 +61,7 @@ public class BlockEnchantingAltar extends MRBlock
 	@Override
 	public int getComparatorInputOverride(BlockState state, World world, BlockPos position)
 	{
-		return ((TileEntityEnchantingAltar) world.getTileEntity(position)).getSignalStrength();
+		return ((EnchantingAltarTileEntity) world.getTileEntity(position)).getSignalStrength();
 	}
 
 	@Override

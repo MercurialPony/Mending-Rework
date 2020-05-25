@@ -10,6 +10,7 @@ function initializeCoreMod()
 	var FieldInsnNode = Java.type("org.objectweb.asm.tree.FieldInsnNode");
 	var MethodInsnNode = Java.type("org.objectweb.asm.tree.MethodInsnNode");
 	var JumpInsnNode = Java.type("org.objectweb.asm.tree.JumpInsnNode");
+	var TypeInsnNode = Java.type("org.objectweb.asm.tree.TypeInsnNode");
 	return {
 		"EnchantmentHelper#getEnchantmentDatas":
 		{
@@ -138,10 +139,12 @@ function initializeCoreMod()
 			transformer: function(node)
 			{
 				var materialCost = ASMAPI.mapField("field_82856_l");
+				var isCompatibleWith = ASMAPI.mapMethod("func_191560_c");
 				var set = ASMAPI.mapMethod("func_221494_a");
 				var getNewRepairCost = ASMAPI.mapMethod("func_216977_d");
 				var counter = 0;
 				var counter1 = 0;
+				var counter2 = 0;
 				for(var iterator = node.instructions.iterator(); iterator.hasNext();)
 				{
 					var instruction = iterator.next();
@@ -156,6 +159,12 @@ function initializeCoreMod()
 							node.instructions.insert(instruction, new IntInsnNode(Opcodes.ALOAD, 1));
 						}
 					}
+					if(instruction.getOpcode() === Opcodes.INVOKEVIRTUAL && instruction.name === isCompatibleWith)
+					{
+						node.instructions.insertBefore(instruction, new IntInsnNode(Opcodes.ALOAD, 6));
+						node.instructions.insertBefore(instruction, new IntInsnNode(Opcodes.ALOAD, 1));
+						iterator.set(new MethodInsnNode(Opcodes.INVOKESTATIC, "melonslise/mendingrework/coremod/MRDelegates", "canApplyWith", "(Lnet/minecraft/enchantment/Enchantment;Lnet/minecraft/enchantment/Enchantment;Lnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)Z"));
+					}
 					if(instruction.getOpcode() === Opcodes.INVOKEVIRTUAL && instruction.name === set)
 					{
 						++counter;
@@ -166,6 +175,15 @@ function initializeCoreMod()
 							node.instructions.insertBefore(instruction, new MethodInsnNode(Opcodes.INVOKESTATIC, "melonslise/mendingrework/coremod/MRDelegates", "getNewRepairCost", "(ILnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)I"));
 						}
 					}
+					if(instruction.getOpcode() === Opcodes.BIPUSH && instruction.operand === 40)
+					{
+						++counter2;
+						if(counter2 === 3)
+						{
+							node.instructions.insertBefore(instruction, new IntInsnNode(Opcodes.ALOAD, 0));
+							iterator.set(new MethodInsnNode(Opcodes.INVOKESTATIC, "melonslise/mendingrework/coremod/MRDelegates", "getMaxRepairCost", "(Lnet/minecraft/inventory/container/RepairContainer;)I"));
+						}
+					}
 					if(instruction.getOpcode() === Opcodes.INVOKESTATIC && instruction.name === getNewRepairCost)
 					{
 						node.instructions.insertBefore(instruction, new IntInsnNode(Opcodes.ALOAD, 1));
@@ -173,6 +191,31 @@ function initializeCoreMod()
 						iterator.set(new MethodInsnNode(Opcodes.INVOKESTATIC, "melonslise/mendingrework/coremod/MRDelegates", "getNewRepairPenalty", "(ILnet/minecraft/item/ItemStack;Lnet/minecraft/item/ItemStack;)I"));
 						break;
 					}
+				}
+				return node;
+			}
+		},
+		"AnvilScreen#drawGuiContainerForegroundLayer":
+		{
+			target:
+			{
+				type: "METHOD",
+				class: "net.minecraft.client.gui.screen.inventory.AnvilScreen",
+				methodName: "func_146979_b",
+				methodDesc: "(II)V"
+			},
+			transformer: function(node)
+			{
+				for(var iterator = node.instructions.iterator(); iterator.hasNext();)
+				{
+					var instruction = iterator.next();
+					if(instruction.getOpcode() !== Opcodes.BIPUSH || instruction.operand !== 40)
+						continue;
+					node.instructions.insertBefore(instruction, new IntInsnNode(Opcodes.ALOAD, 0));
+					node.instructions.insertBefore(instruction, new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/gui/screen/inventory/AnvilScreen", "container", "Lnet/minecraft/inventory/container/Container;"));
+					node.instructions.insertBefore(instruction, new TypeInsnNode(Opcodes.CHECKCAST, "net/minecraft/inventory/container/RepairContainer"));
+					iterator.set(new MethodInsnNode(Opcodes.INVOKESTATIC, "melonslise/mendingrework/coremod/MRDelegates", "getMaxRepairCost", "(Lnet/minecraft/inventory/container/RepairContainer;)I"));
+					break;
 				}
 				return node;
 			}
@@ -269,6 +312,28 @@ function initializeCoreMod()
 				node.instructions.insert(new MethodInsnNode(Opcodes.INVOKESTATIC, "melonslise/mendingrework/coremod/MRDelegates", "onItemDamage", "(Lnet/minecraft/item/ItemStack;I)V"));
 				node.instructions.insert(new IntInsnNode(Opcodes.ILOAD, 1));
 				node.instructions.insert(new IntInsnNode(Opcodes.ALOAD, 0));
+				return node;
+			}
+		},
+		"InfinityEnchantment#canApplyTogether":
+		{
+			target:
+			{
+				type: "METHOD",
+				class: "net.minecraft.enchantment.InfinityEnchantment",
+				methodName: "func_77326_a",
+				methodDesc: "(Lnet/minecraft/enchantment/Enchantment;)Z"
+			},
+			transformer: function(node)
+			{
+				for(var iterator = node.instructions.iterator(); iterator.hasNext();)
+				{
+					var instruction = iterator.next();
+					if(instruction.getOpcode() !== Opcodes.INSTANCEOF)
+						continue;
+					iterator.set(new MethodInsnNode(Opcodes.INVOKESTATIC, "melonslise/mendingrework/coremod/MRDelegates", "cannotApplyInfinity", "(Lnet/minecraft/enchantment/Enchantment;)Z"));
+					break;
+				}
 				return node;
 			}
 		}

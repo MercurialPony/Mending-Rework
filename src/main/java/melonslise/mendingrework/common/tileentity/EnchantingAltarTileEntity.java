@@ -2,11 +2,11 @@ package melonslise.mendingrework.common.tileentity;
 
 import java.util.function.Predicate;
 
-import melonslise.mendingrework.common.config.MRConfiguration;
+import melonslise.mendingrework.common.config.MRConfig;
 import melonslise.mendingrework.common.init.MREnchantments;
 import melonslise.mendingrework.common.init.MRTileEntityTypes;
-import melonslise.mendingrework.common.particle.ParticleDataGlyph;
-import melonslise.mendingrework.utility.MRUtilities;
+import melonslise.mendingrework.common.particle.GlyphParticleData;
+import melonslise.mendingrework.utility.MRUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.DirectionalBlock;
@@ -38,13 +38,13 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 
-public class TileEntityEnchantingAltar extends TileEntity implements ITickableTileEntity
+public class EnchantingAltarTileEntity extends TileEntity implements ITickableTileEntity
 {
 	public static final Predicate<BlockState>[][][] STRUCTURE = new Predicate[7][6][7];
 	static
 	{
 		// FIXME Require air?
-		Predicate<BlockState> quartz = state -> state.getBlock() == Blocks.SMOOTH_QUARTZ;
+		Predicate<BlockState> quartz = state -> state.getBlock() == Blocks.SMOOTH_QUARTZ || state.getBlock() == Blocks.QUARTZ_BLOCK;
 
 		STRUCTURE[3][0][2] = quartz;
 		STRUCTURE[3][0][4] = quartz;
@@ -102,14 +102,14 @@ public class TileEntityEnchantingAltar extends TileEntity implements ITickableTi
 		protected void onContentsChanged(int slot)
 		{
 			super.onContentsChanged(slot);
-			TileEntityEnchantingAltar.this.sync();
+			EnchantingAltarTileEntity.this.sync();
 		}
 	});
 	public int ritualTicks = 0, beamHeight = 0;
 	public final int maxRitualTicks = 160, spiralDelay = 10;
 	public BlockPos headNorth, headEast, headSouth, headWest;
 
-	public TileEntityEnchantingAltar()
+	public EnchantingAltarTileEntity()
 	{
 		super(MRTileEntityTypes.ENCHANTING_ALTAR);
 	}
@@ -240,7 +240,7 @@ public class TileEntityEnchantingAltar extends TileEntity implements ITickableTi
 				--this.ritualTicks;
 				if(this.ritualTicks == 0) this.endRitual();
 			}
-			else if(MRConfiguration.ENABLE_RENEWAL.get()) this.startRitual();
+			else if(MRConfig.ENABLE_RENEWAL.get()) this.startRitual();
 		}
 		else if(this.ritualTicks > 0) this.interruptRitual();
 	}
@@ -251,7 +251,7 @@ public class TileEntityEnchantingAltar extends TileEntity implements ITickableTi
 		{
 			if(this.ritualTicks < this.maxRitualTicks - this.spiralDelay) for(int a = 1; a <= 4 && a <= (this.maxRitualTicks - this.ritualTicks - this.spiralDelay) / 20; ++a)
 			{
-				world.addParticle(new ParticleDataGlyph(Math.PI * (double) a, 0.3d, Math.PI / 45d, 60), this.pos.getX() + 0.5d, this.pos.getY() + 2d -  (double) (a - 1) / 5d, this.pos.getZ() + 0.5d, 0d, -0.003d, 0d);
+				world.addParticle(new GlyphParticleData(Math.PI * (double) a, 0.3d, Math.PI / 45d, 60), this.pos.getX() + 0.5d, this.pos.getY() + 2d -  (double) (a - 1) / 5d, this.pos.getZ() + 0.5d, 0d, -0.003d, 0d);
 				//world.addParticle(new ParticleDataGlyph(Math.PI * (double) a, 0.2d, -Math.PI / 45d, 60), this.pos.getX() + 0.5d, this.pos.getY() + 2d -  (double) (a - 1) / 5d, this.pos.getZ() + 0.5d, 0d, -0.003d, 0d);
 			}
 		}
@@ -260,15 +260,15 @@ public class TileEntityEnchantingAltar extends TileEntity implements ITickableTi
 			for(int a = 1; a <= 4 && a <= (this.maxRitualTicks - this.ritualTicks) / 10; ++a)
 			{
 				double m = 0.00001d;
-				world.addParticle(new ParticleDataGlyph(Math.PI * (double) a / 2d, 4d, 0.015d, 100), this.pos.getX() + 0.5d, this.pos.getY() + 1.5d, this.pos.getZ() + 0.5d, 0d, m, m / 2d);
-				world.addParticle(new ParticleDataGlyph(Math.PI * (double) a / 2d, 4d, 0.015d, 100), this.pos.getX() + 0.5d, this.pos.getY() + 1.5d, this.pos.getZ() + 0.5d, 0d, m, -m / 2d);
-				world.addParticle(new ParticleDataGlyph(Math.PI * (double) a / 2d, 4d, 0.015d, 100), this.pos.getX() + 0.5d, this.pos.getY() + 1.5d, this.pos.getZ() + 0.5d, m / 2d, m, 0);
-				world.addParticle(new ParticleDataGlyph(Math.PI * (double) a / 2d, 4d, 0.015d, 100), this.pos.getX() + 0.5d, this.pos.getY() + 1.5d, this.pos.getZ() + 0.5d, -m / 2d, m, 0);
+				world.addParticle(new GlyphParticleData(Math.PI * (double) a / 2d, 4d, 0.015d, 100), this.pos.getX() + 0.5d, this.pos.getY() + 1.5d, this.pos.getZ() + 0.5d, 0d, m, m / 2d);
+				world.addParticle(new GlyphParticleData(Math.PI * (double) a / 2d, 4d, 0.015d, 100), this.pos.getX() + 0.5d, this.pos.getY() + 1.5d, this.pos.getZ() + 0.5d, 0d, m, -m / 2d);
+				world.addParticle(new GlyphParticleData(Math.PI * (double) a / 2d, 4d, 0.015d, 100), this.pos.getX() + 0.5d, this.pos.getY() + 1.5d, this.pos.getZ() + 0.5d, m / 2d, m, 0);
+				world.addParticle(new GlyphParticleData(Math.PI * (double) a / 2d, 4d, 0.015d, 100), this.pos.getX() + 0.5d, this.pos.getY() + 1.5d, this.pos.getZ() + 0.5d, -m / 2d, m, 0);
 			}
-			world.addParticle(new ParticleDataGlyph(0d, 0d, 0d, 40), this.headNorth.getX() + 0.5d, this.headNorth.getY() + 0.4d, this.headNorth.getZ() + 1d, 0d, 0d, 0.025d);
-			world.addParticle(new ParticleDataGlyph(0d, 0d, 0d, 40), this.headEast.getX(), this.headEast.getY() + 0.4d, this.headEast.getZ() + 0.5d, -0.025d, 0d, 0d);
-			world.addParticle(new ParticleDataGlyph(0d, 0d, 0d, 40), this.headSouth.getX() + 0.5d, this.headSouth.getY() + 0.4d, this.headSouth.getZ(), 0d, 0d, -0.025d);
-			world.addParticle(new ParticleDataGlyph(0d, 0d, 0d, 40), this.headWest.getX() + 1d, this.headWest.getY() + 0.4d, this.headWest.getZ() + 0.5d, 0.025d, 0d, 0d);
+			world.addParticle(new GlyphParticleData(0d, 0d, 0d, 40), this.headNorth.getX() + 0.5d, this.headNorth.getY() + 0.4d, this.headNorth.getZ() + 1d, 0d, 0d, 0.025d);
+			world.addParticle(new GlyphParticleData(0d, 0d, 0d, 40), this.headEast.getX(), this.headEast.getY() + 0.4d, this.headEast.getZ() + 0.5d, -0.025d, 0d, 0d);
+			world.addParticle(new GlyphParticleData(0d, 0d, 0d, 40), this.headSouth.getX() + 0.5d, this.headSouth.getY() + 0.4d, this.headSouth.getZ(), 0d, 0d, -0.025d);
+			world.addParticle(new GlyphParticleData(0d, 0d, 0d, 40), this.headWest.getX() + 1d, this.headWest.getY() + 0.4d, this.headWest.getZ() + 0.5d, 0.025d, 0d, 0d);
 		}
 	}
 
@@ -289,10 +289,10 @@ public class TileEntityEnchantingAltar extends TileEntity implements ITickableTi
 
 	public void animateSkulls(boolean animate)
 	{
-		MRUtilities.animateSkull(this.world, this.headNorth, animate);
-		MRUtilities.animateSkull(this.world, this.headEast, animate);
-		MRUtilities.animateSkull(this.world, this.headSouth, animate);
-		MRUtilities.animateSkull(this.world, this.headWest, animate);
+		MRUtil.animateSkull(this.world, this.headNorth, animate);
+		MRUtil.animateSkull(this.world, this.headEast, animate);
+		MRUtil.animateSkull(this.world, this.headSouth, animate);
+		MRUtil.animateSkull(this.world, this.headWest, animate);
 	}
 
 	@Override

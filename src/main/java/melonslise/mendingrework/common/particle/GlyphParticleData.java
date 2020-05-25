@@ -10,12 +10,12 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 
-public class ParticleDataGlyph implements IParticleData
+public class GlyphParticleData implements IParticleData
 {
-	public static final IParticleData.IDeserializer<ParticleDataGlyph> DESERIALIZER = new IParticleData.IDeserializer<ParticleDataGlyph>()
+	public static final IParticleData.IDeserializer<GlyphParticleData> DESERIALIZER = new IParticleData.IDeserializer<GlyphParticleData>()
 	{
 		@Override
-		public ParticleDataGlyph deserialize(ParticleType<ParticleDataGlyph> type, StringReader reader) throws CommandSyntaxException
+		public GlyphParticleData deserialize(ParticleType<GlyphParticleData> type, StringReader reader) throws CommandSyntaxException
 		{
 			reader.expect(' ');
 			double rotation = reader.readDouble();
@@ -25,20 +25,20 @@ public class ParticleDataGlyph implements IParticleData
 			double spiralSpeed = reader.readDouble();
 			reader.expect(' ');
 			int maxAge = reader.readInt();
-			return new ParticleDataGlyph(rotation, spiralRadius, spiralSpeed, maxAge);
+			return new GlyphParticleData(rotation, spiralRadius, spiralSpeed, maxAge);
 		}
 
 		@Override
-		public ParticleDataGlyph read(ParticleType<ParticleDataGlyph> type, PacketBuffer buffer)
+		public GlyphParticleData read(ParticleType<GlyphParticleData> type, PacketBuffer buffer)
 		{
-			return new ParticleDataGlyph((double) buffer.readFloat(), (double) buffer.readFloat(), (double) buffer.readFloat(), (int) buffer.readShort());
+			return new GlyphParticleData((double) buffer.readFloat(), (double) buffer.readFloat(), (double) buffer.readFloat(), (int) buffer.readShort());
 		}
 	};
 
 	public final double rotation, spiralRadius, spiralSpeed;
 	public final int maxAge;
 
-	public ParticleDataGlyph(double rotation, double spiralRadius, double spiralSpeed, int maxAge)
+	public GlyphParticleData(double rotation, double spiralRadius, double spiralSpeed, int maxAge)
 	{
 		this.rotation = rotation;
 		this.spiralRadius = spiralRadius;
@@ -47,7 +47,7 @@ public class ParticleDataGlyph implements IParticleData
 	}
 
 	@Override
-	public ParticleType<ParticleDataGlyph> getType()
+	public ParticleType<GlyphParticleData> getType()
 	{
 		return MRParticleTypes.GLYPH;
 	}

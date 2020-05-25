@@ -2,7 +2,7 @@ package melonslise.mendingrework.utility;
 
 import java.lang.reflect.Field;
 
-import melonslise.mendingrework.common.config.MRConfiguration;
+import melonslise.mendingrework.common.config.MRConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.SkullTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -11,9 +11,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-public final class MRUtilities
+public final class MRUtil
 {
-	private MRUtilities() {}
+	private MRUtil() {}
 
 	/*
 	 * 
@@ -47,7 +47,7 @@ public final class MRUtilities
 
 	public static double getRepairBonus(ItemStack stack)
 	{
-		return (1d - (double) getRepairedDamage(stack) / (double) stack.getMaxDamage()) * MRConfiguration.MAX_REPAIR_BOOST.get();
+		return (1d - (double) getRepairedDamage(stack) / (double) stack.getMaxDamage()) * MRConfig.MAX_REPAIR_BOOST.get();
 	}
 
 	/*

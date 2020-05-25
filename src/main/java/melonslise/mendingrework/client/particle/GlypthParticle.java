@@ -1,7 +1,7 @@
 package melonslise.mendingrework.client.particle;
 
-import melonslise.mendingrework.common.particle.ParticleDataGlyph;
-import melonslise.mendingrework.utility.MRUtilities;
+import melonslise.mendingrework.common.particle.GlyphParticleData;
+import melonslise.mendingrework.utility.MRUtil;
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
@@ -14,15 +14,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 // FIXME Transparency
 @OnlyIn(Dist.CLIENT)
-public class ParticleGlyph extends SpriteTexturedParticle
+public class GlypthParticle extends SpriteTexturedParticle
 {
 	public double originX, originY, originZ, rotation, oldRotation;
 	public final double spiralRadius, spiralSpeed;
 
-	public ParticleGlyph(World world, double x, double y, double z, double speedX, double speedY, double speedZ, double rotation, double spiralRadius, double spiralSpeed, int maxAge)
+	public GlypthParticle(World world, double x, double y, double z, double speedX, double speedY, double speedZ, double rotation, double spiralRadius, double spiralSpeed, int maxAge)
 	{
 		super(world, x, y, z);
-		Vec3d orth = MRUtilities.getOrthogonal(speedX, speedY, speedZ, spiralRadius);
+		Vec3d orth = MRUtil.getOrthogonal(speedX, speedY, speedZ, spiralRadius);
 		this.prevPosX = this.posX = orth.x;
 		this.prevPosY = this.posY = orth.y;
 		this.prevPosZ = this.posZ = orth.z;
@@ -65,8 +65,8 @@ public class ParticleGlyph extends SpriteTexturedParticle
 			if(this.spiral())
 			{
 				this.rotation += this.spiralSpeed;
-				Vec3d orth = MRUtilities.getOrthogonal(this.motionX, this.motionY, this.motionZ, this.spiralRadius);
-				Vec3d position = MRUtilities.rotateAroundAxis(orth.x, orth.y, orth.z, this.motionX, this.motionY, this.motionZ, this.rotation).add(this.originX, this.originY, this.originZ);
+				Vec3d orth = MRUtil.getOrthogonal(this.motionX, this.motionY, this.motionZ, this.spiralRadius);
+				Vec3d position = MRUtil.rotateAroundAxis(orth.x, orth.y, orth.z, this.motionX, this.motionY, this.motionZ, this.rotation).add(this.originX, this.originY, this.originZ);
 				this.posX = position.x;
 				this.posY = position.y;
 				this.posZ = position.z;
@@ -101,7 +101,7 @@ public class ParticleGlyph extends SpriteTexturedParticle
 	}
 
 	@OnlyIn(Dist.CLIENT)
-	public static class Factory implements IParticleFactory<ParticleDataGlyph>
+	public static class Factory implements IParticleFactory<GlyphParticleData>
 	{
 		public final IAnimatedSprite sprites;
 
@@ -111,9 +111,9 @@ public class ParticleGlyph extends SpriteTexturedParticle
 		}
 
 		@Override
-		public Particle makeParticle(ParticleDataGlyph data, World world, double x, double y, double z, double speedX, double speedY, double speedZ)
+		public Particle makeParticle(GlyphParticleData data, World world, double x, double y, double z, double speedX, double speedY, double speedZ)
 		{
-			ParticleGlyph glyph = new ParticleGlyph(world, x, y, z, speedX, speedY, speedZ, data.rotation, data.spiralRadius, data.spiralSpeed, data.maxAge);
+			GlypthParticle glyph = new GlypthParticle(world, x, y, z, speedX, speedY, speedZ, data.rotation, data.spiralRadius, data.spiralSpeed, data.maxAge);
 			glyph.selectSpriteRandomly(this.sprites);
 			return glyph;
 		}
