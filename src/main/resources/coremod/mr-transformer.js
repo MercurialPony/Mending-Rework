@@ -206,13 +206,14 @@ function initializeCoreMod()
 			},
 			transformer: function(node)
 			{
+				var container = ASMAPI.mapField("field_147002_h");
 				for(var iterator = node.instructions.iterator(); iterator.hasNext();)
 				{
 					var instruction = iterator.next();
 					if(instruction.getOpcode() !== Opcodes.BIPUSH || instruction.operand !== 40)
 						continue;
 					node.instructions.insertBefore(instruction, new IntInsnNode(Opcodes.ALOAD, 0));
-					node.instructions.insertBefore(instruction, new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/gui/screen/inventory/AnvilScreen", "container", "Lnet/minecraft/inventory/container/Container;"));
+					node.instructions.insertBefore(instruction, new FieldInsnNode(Opcodes.GETFIELD, "net/minecraft/client/gui/screen/inventory/AnvilScreen", container, "Lnet/minecraft/inventory/container/Container;"));
 					node.instructions.insertBefore(instruction, new TypeInsnNode(Opcodes.CHECKCAST, "net/minecraft/inventory/container/RepairContainer"));
 					iterator.set(new MethodInsnNode(Opcodes.INVOKESTATIC, "melonslise/mendingrework/coremod/MRDelegates", "getMaxRepairCost", "(Lnet/minecraft/inventory/container/RepairContainer;)I"));
 					break;
